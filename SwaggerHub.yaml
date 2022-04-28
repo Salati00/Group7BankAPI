@@ -29,6 +29,39 @@ paths:
       description: Fetches the entire list of users stored on the system.
       operationId: getAllUsers
       parameters:
+      # search by last name
+        - in: query
+          name: lastName
+          schema:
+            type: string
+          description: the user name to be searched
+      # search by id  
+        - in: query
+          name: userId
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          description: the userId to be fetched
+         # the limit query
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 20
+            maximum: 50
+          description: the limit to get number of users
+          
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+          description: the offset to start getting users
+          
         - $ref: "#/components/parameters/offsetParam"
         - $ref: "#/components/parameters/limitParam"
         - $ref: "#/components/parameters/emailParam"
@@ -42,6 +75,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid input
+        "403":
+          description: Forbidden, you do not have access rights
+        "404":
+          description: Not found
+        "500":
+          description: Oops, something went wrong on the server.
+        '201':
+          description: Created
+        '409':
+          description: Conflict          
 
     post:
       tags:
@@ -62,6 +107,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid input
+        "403":
+          description: Forbidden, you do not have access rights
+        "404":
+          description: Not found
+        "500":
+          description: Oops, something went wrong on the server.
+        '201':
+          description: Created
+        '409':
+          description: Conflict        
 
   /Users/{id}:
     get:
@@ -100,6 +157,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        "400":
+          description: Invalid input
+        "403":
+          description: Forbidden, you do not have access rights
+        "404":
+          description: Not found
+        "500":
+          description: Oops, something went wrong on the server.
+        
+        '409':
+          description: Conflict        
 
     delete:
       summary: Delete a user.
@@ -112,6 +180,12 @@ paths:
       responses:
         "204":
           description: User set as inactive.
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found 
+        '201':
+          description: User deleted  
 
   /Users/Login/:
     post:
@@ -133,6 +207,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BearerTokenDto"
+        "400":
+          description: Invalid input
+        "403":
+          description: Forbidden, you do not have access rights
+        "404":
+          description: Not found
+        "500":
+          description: Oops, something went wrong on the server.
+        
+        '409':
+          description: Conflict         
 
   /Transactions:
     post:
