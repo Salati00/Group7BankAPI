@@ -459,7 +459,10 @@ components:
         phone:
           type: string
           example: '0612345678'
-        Transactionlimit:
+        transactionLimit:
+          type : number
+          example: 10000
+        dailylimit:
           type : number
           example: 10000
         Role:
@@ -497,16 +500,14 @@ components:
         balance:
           type : number
           example: 5000
-        dailylimit:
-          type : number
-          example: 10000
         Absolutelimit:
           type : number
           example: 0
         AccountType:
           $ref: '#/components/schemas/AccountType'
-        User:
-          $ref: '#/components/schemas/User'
+        UserId:
+          type : integer
+          example: 123
     AccountType:
           type: string
           enum:
@@ -572,7 +573,6 @@ components:
         maximum: 50
         example: 15
         default: 10
-
 
     offsetParam:
       in: query
