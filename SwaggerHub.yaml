@@ -24,7 +24,7 @@ paths:
   /Users:
     get:
       tags:
-        - User
+        - Users
       summary: Get all users registered on the system.
       description: Fetches the entire list of users stored on the system.
       operationId: getAllUsers
@@ -90,7 +90,7 @@ paths:
 
     post:
       tags:
-        - User
+        - Users
       summary: Registers a user.
       description: Register a user to the system.
       operationId: createUser
@@ -123,7 +123,7 @@ paths:
   /Users/{id}:
     get:
       tags:
-        - User
+        - Users
       summary: Get a user by their ID.
       description: Fetches a user from the system by the ID provided.
       operationId: getUserById
@@ -139,7 +139,7 @@ paths:
     
     put:
       tags:
-        - User
+        - Users
       summary: Update a user.
       description: User(customer - employee) can update their information.
       operationId: updateUserById
@@ -172,7 +172,7 @@ paths:
     delete:
       summary: Delete a user.
       tags:
-      - User
+      - Users
       description: Change user accountStatus to Inactive.
       operationId: deleteUserById
       parameters:
@@ -192,7 +192,7 @@ paths:
       security: []
       summary: User login.
       tags:
-        - User
+        - Users
       description: login
       operationId: loginUser
       requestBody:
@@ -381,14 +381,14 @@ paths:
               example: { "Amount": "123.56" }
               type: number
         description: "Amount of money to withdraw"
-  /Accounts/{iban}:
+  /Accounts/{Iban}:
     delete:
       tags:
         - Accounts
       summary: Delete account
       operationId: deleteaccount
       parameters:
-        - name: iban
+        - name: Iban
           in: path
           description: The ID of the account that needs to be deleted
           required: true
@@ -398,8 +398,7 @@ paths:
         '400':
           description: Invalid ID supplied
         '404':
-          description: ID not found    
-  /Accounts/{Iban}:
+          description: ID not found
     get:
       tags:
       - Accounts
@@ -480,18 +479,6 @@ components:
         From:
           type: string
           example: "NL91 ABNA 0417 1643 00"
-    Auth_Token:
-      type: object
-      required:
-        - key
-        - value
-      properties:
-        key:
-          type: string
-          example: "AuthToken"
-        value:
-          type: string
-          example: "1-4343-47637-43764383-4637673"
     Account:
       type: object
       required:
