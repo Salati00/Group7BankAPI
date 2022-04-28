@@ -6,7 +6,7 @@ servers:
     url: https://virtserver.swaggerhub.com/Salati00/Bank-API/1.5
 info:
   description: This is a simple API
-  version: "1.5"
+  version: '2.1'
   title: Bank API
   contact:
     email: g.salati.0115@gmail.com
@@ -24,11 +24,44 @@ paths:
   /Users:
     get:
       tags:
-        - User
+        - Users
       summary: Get all users registered on the system.
       description: Fetches the entire list of users stored on the system.
       operationId: getAllUsers
       parameters:
+      # search by last name
+        - in: query
+          name: lastName
+          schema:
+            type: string
+          description: the user name to be searched
+      # search by id  
+        - in: query
+          name: userId
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          description: the userId to be fetched
+         # the limit query
+        - in: query
+          name: limit
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 20
+            maximum: 50
+          description: the limit to get number of users
+          
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+          description: the offset to start getting users
+          
         - $ref: "#/components/parameters/offsetParam"
         - $ref: "#/components/parameters/limitParam"
         - $ref: "#/components/parameters/emailParam"
@@ -42,10 +75,22 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid input
+        "403":
+          description: Forbidden, you do not have access rights
+        "404":
+          description: Not found
+        "500":
+          description: Oops, something went wrong on the server.
+        '201':
+          description: Created
+        '409':
+          description: Conflict          
 
     post:
       tags:
-        - User
+        - Users
       summary: Registers a user.
       description: Register a user to the system.
       operationId: createUser
@@ -62,11 +107,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        "400":
+          description: Invalid input
+        "403":
+          description: Forbidden, you do not have access rights
+        "404":
+          description: Not found
+        "500":
+          description: Oops, something went wrong on the server.
+        '409':
+          description: Conflict        
 
   /Users/{id}:
     get:
       tags:
-        - User
+        - Users
       summary: Get a user by their ID.
       description: Fetches a user from the system by the ID provided.
       operationId: getUserById
@@ -82,7 +137,7 @@ paths:
     
     put:
       tags:
-        - User
+        - Users
       summary: Update a user.
       description: User(customer - employee) can update their information.
       operationId: updateUserById
@@ -100,11 +155,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+        "400":
+          description: Invalid input
+        "403":
+          description: Forbidden, you do not have access rights
+        "404":
+          description: Not found
+        "500":
+          description: Oops, something went wrong on the server.
+        
+        '409':
+          description: Conflict        
 
     delete:
       summary: Delete a user.
       tags:
-      - User
+      - Users
       description: Change user accountStatus to Inactive.
       operationId: deleteUserById
       parameters:
@@ -112,13 +178,19 @@ paths:
       responses:
         "204":
           description: User set as inactive.
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found 
+        '201':
+          description: User deleted  
 
   /Users/Login/:
     post:
       security: []
       summary: User login.
       tags:
-        - User
+        - Users
       description: login
       operationId: loginUser
       requestBody:
@@ -133,6 +205,17 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BearerTokenDto"
+        "400":
+          description: Invalid input
+        "403":
+          description: Forbidden, you do not have access rights
+        "404":
+          description: Not found
+        "500":
+          description: Oops, something went wrong on the server.
+        
+        '409':
+          description: Conflict         
 
   /Transactions:
     post:
@@ -272,6 +355,8 @@ paths:
       description: This can only be done by the logged in user.
       operationId: createcurrentaccount
       responses:
+        '200':
+          description: OK
         '400':
           description: operation failed
         '404':
@@ -280,7 +365,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Account'
+              $ref: '#/components/schemas/User'
         description: Created account object
         required: true
     put:
@@ -289,6 +374,8 @@ paths:
       summary: Update an existing account
       operationId: updateAccount
       responses:
+        '200':
+          description: OK
         '404':
           description: Account not found
         '405':
@@ -337,25 +424,26 @@ paths:
               example: { "Amount": "123.56" }
               type: number
         description: "Amount of money to withdraw"
-  /Accounts/{iban}:
+  /Accounts/{Iban}:
     delete:
       tags:
         - Accounts
       summary: Delete account
       operationId: deleteaccount
       parameters:
-        - name: iban
+        - name: Iban
           in: path
           description: The ID of the account that needs to be deleted
           required: true
           schema:
             type: string
       responses:
+        '200':
+          description: OK
         '400':
           description: Invalid ID supplied
         '404':
-          description: ID not found    
-  /Accounts/{Iban}:
+          description: ID not found
     get:
       tags:
       - Accounts
@@ -437,6 +525,7 @@ components:
         From:
           type: string
           example: "NL91 ABNA 0417 1643 00"
+<<<<<<< HEAD
         UserPerformingID:
           type: integer
           example: 54398
@@ -452,6 +541,8 @@ components:
         value:
           type: string
           example: "1-4343-47637-43764383-4637673"
+=======
+>>>>>>> d3f6d8ac67f997dd1334d3032799cc030918fb46
     Account:
       type: object
       required:
