@@ -1,7 +1,6 @@
 openapi: 3.0.0
 servers:
   # Added by API Auto Mocking Plugin
-  #hello world
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/Salati00/Bank-API/1.5
 info:
@@ -79,7 +78,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-
+    
     put:
       tags:
         - User
@@ -205,7 +204,7 @@ paths:
       tags:
         - Transactions
       summary: "Gets single transfer from logged in account"
-      parameters:
+      parameters: 
       - in: path
         name: id
         schema:
@@ -234,7 +233,7 @@ paths:
         '400':
           description: operation failed
         '404':
-          description: Account was not added
+          description: Account was not added   
       requestBody:
         content:
           application/json:
@@ -253,7 +252,7 @@ paths:
         '405':
           description: Validation exception
       requestBody:
-        $ref: '#/components/requestBodies/Account'
+        $ref: '#/components/requestBodies/Account' 
   /Accounts/Deposit:
     post:
       tags:
@@ -313,7 +312,7 @@ paths:
         '400':
           description: Invalid ID supplied
         '404':
-          description: ID not found
+          description: ID not found    
   /Accounts/{Iban}:
     get:
       tags:
@@ -338,11 +337,6 @@ paths:
         '400':
           description: Invalid Iban supplied
 components:
-  securitySchemes:
-    JWT-Token:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   responses:
     UnauthorizedError:
       description: Authentication information is missing or invalid
@@ -353,7 +347,7 @@ components:
   schemas:
     User:
       type: object
-      required:
+      required: 
         - username
         - Role
       properties:
@@ -446,6 +440,22 @@ components:
           enum:
           - User
           - Employee
+    LoginDto:
+      type: object
+      additionalProperties: false
+      properties:
+        email:
+          type: string
+          example: rbanks@gmail.com
+        password:
+          type: string
+          example: veryCoolPassword2
+    BearerTokenDto:
+      type: object
+      properties:
+        bearerToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dnZWRJbkFzIjoiYWRtaW4iLCJpYXQiOjE0MjI3Nzk2Mzh9.gzSraSYS8EXBxLN_oWnFSRgCzcmJmMjLiuyu5CSpyHI
   requestBodies:
     Account:
       content:
@@ -454,5 +464,58 @@ components:
             $ref: '#/components/schemas/Account'
       description: Updating an existing account
       required: true
+# Parameters are for paginated enddpoint
+  parameters:
+    userIdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: UUID
+        example: 4a090b27-5300-456a-8041-4c63a5e31436
+
+    emailParam:
+      name: email
+      in: query
+      required: true
+      schema:
+        type: string
+        example: "robbanks@gmail.com"
+
+    limitParam:
+      name: max
+      in: query
+      required: false
+      description: The maximum number of items to return.
+      schema:
+        type: integer
+        format: int32
+        minimum: 10
+        maximum: 50
+        example: 15
+        default: 10
+
+
+    offsetParam:
+      in: query
+      required: false
+      name: offset
+      description: The number of items to skip before starting to collect the result set.
+      schema:
+        type: integer
+        format: int32
+        example: 60
+        minimum: 0
+
+
+  # Implementing bearer authentication
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+# Applying the security globally to all operations
 security:
-  - JWT-Token: []
+  - bearerAuth: []
