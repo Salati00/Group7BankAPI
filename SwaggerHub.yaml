@@ -1,0 +1,457 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Salati00/Bank-API/1.5
+info:
+  description: This is a simple API
+  version: "1.5"
+  title: Bank API
+  contact:
+    email: g.salati.0115@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: Users
+    description: Operations related to users
+  - name: Transactions
+    description: Operations related to cash operations
+  - name: Accounts
+    description: Operations related to Accounts
+paths:
+  /Users:
+    get:
+      tags:
+        - User
+      summary: Get all users registered on the system.
+      description: Fetches the entire list of users stored on the system.
+      operationId: getAllUsers
+      parameters:
+        - $ref: "#/components/parameters/offsetParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/emailParam"
+      responses:
+        "200":
+          description: Returns a list of users
+          content:
+            application/json:
+              schema:
+                maxItems: 50
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+    post:
+      tags:
+        - User
+      summary: Registers a user.
+      description: Register a user to the system.
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: The user has been created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /Users/{id}:
+    get:
+      tags:
+        - User
+      summary: Get a user by their ID.
+      description: Fetches a user from the system by the ID provided.
+      operationId: getUserById
+      parameters:
+        - $ref: "#/components/parameters/userIdParam"
+      responses:
+        "200":
+          description: Succesful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    
+    put:
+      tags:
+        - User
+      summary: Update a user.
+      description: User(customer - employee) can update their information.
+      operationId: updateUserById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      parameters:
+        - $ref: "#/components/parameters/userIdParam"
+      responses:
+        "201":
+          description: Information has been updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+    delete:
+      summary: Delete a user.
+      tags:
+      - User
+      description: Change user accountStatus to Inactive.
+      operationId: deleteUserById
+      parameters:
+      - $ref:  "#/components/parameters/userIdParam"
+      responses:
+        "204":
+          description: User set as inactive.
+
+  /Users/Login/:
+    post:
+      security: []
+      summary: User login.
+      tags:
+        - User
+      description: login
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginDto"
+      responses:
+        "200":
+          description: User logged in.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BearerTokenDto"
+
+  /Transactions:
+    post:
+      tags:
+        - Transactions
+      summary: Transfers money to other account
+      operationId: transferMoney
+      description: Transfers money from currently logged in account to other account specified
+      responses:
+        '200':
+          description: "Money transferred"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '400':
+          description: "Error in the transaction"
+        '403':
+          description: "Error: unauthorized"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Transaction"
+        description: "Amount of money to deposit"
+    get:
+      tags:
+        - Transactions
+      summary: Gets list of transfers on a specific IBAN
+      operationId: getTransfers
+      description: Gets list of transfers on a specific IBAN
+      parameters:
+      - in: query
+        name: count
+        description: amount of transactions to return
+        schema:
+          type: integer
+      - in: query
+        name: iban
+        description: iban of account whose transactions to retrieve
+        schema:
+          type: string
+      - in: query
+        name: startDate
+        description: date of transaction to return from which to start
+        schema:
+          type: string
+      - in: query
+        name: endDate
+        description: final date of transaction to return
+        schema:
+          type: string
+      responses:
+        '200':
+          description: "Retrieved list of transactions for account"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '400':
+          description: "Error in the transaction"
+        '403':
+          description: "Error: Unauthorized"
+  /Transactions/{id}:
+    get:
+      tags:
+        - Transactions
+      summary: "Gets single transfer from logged in account"
+      parameters: 
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: "Numeric id of the transaction to get"
+      operationId: getTransferById
+      description: "Retrieves a single transaction by using the id parameter"
+      responses:
+        '200':
+          description: "Detail of single transaction"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: "Error in the transaction"
+  /Accounts:
+    post:
+      tags:
+        - Accounts
+      summary: Create an Account
+      description: This can only be done by the logged in user.
+      operationId: createcurrentaccount
+      responses:
+        '400':
+          description: operation failed
+        '404':
+          description: Account was not added   
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+        description: Created account object
+        required: true
+    put:
+      tags:
+        - Accounts
+      summary: Update an existing account
+      operationId: updateAccount
+      responses:
+        '404':
+          description: Account not found
+        '405':
+          description: Validation exception
+      requestBody:
+        $ref: '#/components/requestBodies/Account' 
+  /Accounts/Deposit:
+    post:
+      tags:
+        - Accounts
+      summary: Deposits money
+      operationId: depositMoney
+      description: Deposits money into logged in account
+      responses:
+        '200':
+          description: "Money deposited"
+        '400':
+          description: "Error in the transaction"
+        '403':
+          description: "Error: unauthorized"
+      requestBody:
+        content:
+          application/json:
+             schema:
+              example: { "Amount": "123.56" }
+              type: number
+        description: "Amount of money to deposit"
+  /Accounts/Witdraw:
+    post:
+      tags:
+        - Accounts
+      summary: Withdraws money
+      operationId: withdrawMoney
+      description: Withdraws money from logged in account
+      responses:
+        '200':
+          description: "Money Withdrawn"
+        '400':
+          description: "Error in the transaction"
+        '403':
+          description: "Error: unauthorized"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example: { "Amount": "123.56" }
+              type: number
+        description: "Amount of money to withdraw"
+  /Accounts/{iban}:
+    delete:
+      tags:
+        - Accounts
+      summary: Delete account
+      operationId: deleteaccount
+      parameters:
+        - name: iban
+          in: path
+          description: The ID of the account that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: ID not found    
+  /Accounts/{Iban}:
+    get:
+      tags:
+      - Accounts
+      summary: Find Account by Iban
+      description: Returns a single Account
+      operationId: getAccountByIban
+      parameters:
+        - name: Iban
+          in: path
+          description: Iban of account to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: Invalid Iban supplied
+components:
+  securitySchemes:
+    JWT-Token:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      headers:
+        x_authtoken:
+          schema:
+            type: string
+  schemas:
+    User:
+      type: object
+      required: 
+        - username
+        - Role
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 123
+        username:
+          type: string
+          example: 'JohnDoe123'
+        firstName:
+          type: string
+          example: 'John'
+        lastName:
+          type: string
+          example: 'Doe'
+        email:
+          type: string
+          example: 'JohnDoe123@hotmail.com'
+        phone:
+          type: string
+          example: '0612345678'
+        Transactionlimit:
+          type : number
+          example: 10000
+        Role:
+          $ref: '#/components/schemas/Role'
+    Transaction:
+      type: object
+      required:
+      - Amount
+      - To
+      - From
+      properties:
+        Date:
+          type: string
+          example: "01/01/2000"
+        Amount:
+          type: number
+          example: 123.45
+        To:
+          type: string
+          example: "NL91 ABNA 0417 1643 00"
+        From:
+          type: string
+          example: "NL91 ABNA 0417 1643 00"
+    Auth_Token:
+      type: object
+      required:
+        - key
+        - value
+      properties:
+        key:
+          type: string
+          example: "AuthToken"
+        value:
+          type: string
+          example: "1-4343-47637-43764383-4637673"
+    Account:
+      type: object
+      required:
+      - balance
+      - dailylimit
+      - AccountType
+      - Absolutelimit
+      properties:
+        iban:
+          type: string
+          example: NL91 ABNA 0417 1643 00
+        balance:
+          type : number
+          example: 5000
+        dailylimit:
+          type : number
+          example: 10000
+        Absolutelimit:
+          type : number
+          example: 0
+        AccountType:
+          $ref: '#/components/schemas/AccountType'
+        User:
+          $ref: '#/components/schemas/User'
+    AccountType:
+          type: string
+          enum:
+          - Currentaccount
+          - Savingaccount
+    Role:
+          type: string
+          enum:
+          - User
+          - Employee
+  requestBodies:
+    Account:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Account'
+      description: Updating an existing account
+      required: true
+security:
+  - JWT-Token: []
