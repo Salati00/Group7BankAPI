@@ -20,68 +20,48 @@ tags:
     description: Operations related to cash operations
   - name: Accounts
     description: Operations related to Accounts
-/users:
+paths:
+  /Users:
     get:
       tags:
         - User
-      summary: Returns a list of users.
-      description: Get a list of the registered users
-      operationId: getUsers
+      summary: Get all users registered on the system.
+      description: Fetches the entire list of users stored on the system.
+      operationId: getAllUsers
       parameters:
-      # search by last name
-        - in: query
-          name: lastName
-          schema:
-            type: string
-          description: the user name to be searched
-      # search by id
-        - in: query
-          name: userId
-          schema:
-            type: integer
-            format: int64
-            minimum: 1
-          description: the userId to be fetched
-         # the limit query
-        - in: query
-          name: limit
-          required: true
-          schema:
-            type: integer
-            format: int64
-            minimum: 20
-            maximum: 50
-          description: the limit to get number of users
-
-        - in: query
-          name: offset
-          schema:
-            type: integer
-            format: int64
-            minimum: 0
-          description: the offset to start getting users
-
+        - $ref: "#/components/parameters/offsetParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/emailParam"
       responses:
-        '200':
-          description: OK
+        "200":
+          description: Returns a list of users
           content:
             application/json:
               schema:
+                maxItems: 50
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
-        "400":
-          description: Invalid input
-        "403":
-          description: Forbidden, you do not have access rights
-        "404":
-          description: Not found
-        "500":
-          description: Oops, something went wrong on the server.
-        '201':
-          description: Created
-        '409':
-          description: Conflict
+                  $ref: "#/components/schemas/User"
+
+    post:
+      tags:
+        - User
+      summary: Registers a user.
+      description: Register a user to the system.
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: The user has been created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
 
   /Users/{id}:
     get:
