@@ -1,6 +1,7 @@
 openapi: 3.0.0
 servers:
   # Added by API Auto Mocking Plugin
+  #hello world
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/Salati00/Bank-API/1.5
 info:
@@ -78,7 +79,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-    
+
     put:
       tags:
         - User
@@ -204,7 +205,7 @@ paths:
       tags:
         - Transactions
       summary: "Gets single transfer from logged in account"
-      parameters: 
+      parameters:
       - in: path
         name: id
         schema:
@@ -233,7 +234,7 @@ paths:
         '400':
           description: operation failed
         '404':
-          description: Account was not added   
+          description: Account was not added
       requestBody:
         content:
           application/json:
@@ -252,7 +253,7 @@ paths:
         '405':
           description: Validation exception
       requestBody:
-        $ref: '#/components/requestBodies/Account' 
+        $ref: '#/components/requestBodies/Account'
   /Accounts/Deposit:
     post:
       tags:
@@ -312,7 +313,7 @@ paths:
         '400':
           description: Invalid ID supplied
         '404':
-          description: ID not found    
+          description: ID not found
   /Accounts/{Iban}:
     get:
       tags:
@@ -352,7 +353,7 @@ components:
   schemas:
     User:
       type: object
-      required: 
+      required:
         - username
         - Role
       properties:
