@@ -296,7 +296,7 @@ paths:
               example: { "Amount": "123.56" }
               type: number
         description: "Amount of money to withdraw"
-  /Accounts/{iban}:
+  /Accounts/{Iban}:
     delete:
       tags:
         - Accounts
@@ -313,8 +313,7 @@ paths:
         '400':
           description: Invalid ID supplied
         '404':
-          description: ID not found    
-  /Accounts/{Iban}:
+          description: ID not found
     get:
       tags:
       - Accounts
