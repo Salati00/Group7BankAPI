@@ -24,7 +24,7 @@ paths:
   /Users:
     get:
       tags:
-        - User
+        - Users
       summary: Get all users registered on the system.
       description: Fetches the entire list of users stored on the system.
       operationId: getAllUsers
@@ -45,7 +45,7 @@ paths:
 
     post:
       tags:
-        - User
+        - Users
       summary: Registers a user.
       description: Register a user to the system.
       operationId: createUser
@@ -66,7 +66,7 @@ paths:
   /Users/{id}:
     get:
       tags:
-        - User
+        - Users
       summary: Get a user by their ID.
       description: Fetches a user from the system by the ID provided.
       operationId: getUserById
@@ -82,7 +82,7 @@ paths:
     
     put:
       tags:
-        - User
+        - Users
       summary: Update a user.
       description: User(customer - employee) can update their information.
       operationId: updateUserById
@@ -104,7 +104,7 @@ paths:
     delete:
       summary: Delete a user.
       tags:
-      - User
+      - Users
       description: Change user accountStatus to Inactive.
       operationId: deleteUserById
       parameters:
@@ -118,7 +118,7 @@ paths:
       security: []
       summary: User login.
       tags:
-        - User
+        - Users
       description: login
       operationId: loginUser
       requestBody:
