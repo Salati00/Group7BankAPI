@@ -303,7 +303,7 @@ paths:
       summary: Delete account
       operationId: deleteaccount
       parameters:
-        - name: iban
+        - name: Iban
           in: path
           description: The ID of the account that needs to be deleted
           required: true
@@ -394,18 +394,6 @@ components:
         From:
           type: string
           example: "NL91 ABNA 0417 1643 00"
-    Auth_Token:
-      type: object
-      required:
-        - key
-        - value
-      properties:
-        key:
-          type: string
-          example: "AuthToken"
-        value:
-          type: string
-          example: "1-4343-47637-43764383-4637673"
     Account:
       type: object
       required:
