@@ -163,7 +163,7 @@ paths:
     get:
       tags:
         - Transactions
-      summary: Gets list of transfers on a specific IBAN
+      summary: Gets list of transfers on a specific IBAN by time stamp
       operationId: getTransfers
       description: Gets list of transfers on a specific IBAN
       parameters:
@@ -200,6 +200,47 @@ paths:
           description: "Error in the transaction"
         '403':
           description: "Error: Unauthorized"
+    get:
+      tags:
+        - Transactions
+      summary: Gets list of transfers on a specific IBAN by amount
+      operationId: getTransfersb
+      description: Gets list of transfers on a specific IBAN
+      parameters:
+      - in: query
+        name: count
+        description: amount of transactions to return
+        schema:
+          type: integer
+      - in: query
+        name: iban
+        description: iban of account whose transactions to retrieve
+        schema:
+          type: string
+      - in: query
+        name: startDate
+        description: date of transaction to return from which to start
+        schema:
+          type: string
+      - in: query
+        name: endDate
+        description: final date of transaction to return
+        schema:
+          type: string
+      responses:
+        '200':
+          description: "Retrieved list of transactions for account"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '400':
+          description: "Error in the transaction"
+        '403':
+          description: "Error: Unauthorized"
+
   /Transactions/{id}:
     get:
       tags:
@@ -382,6 +423,7 @@ components:
       - Amount
       - To
       - From
+      - UserPerformingID
       properties:
         Date:
           type: string
@@ -395,6 +437,9 @@ components:
         From:
           type: string
           example: "NL91 ABNA 0417 1643 00"
+        UserPerformingID:
+          type: integer
+          example: 54398
     Auth_Token:
       type: object
       required:
