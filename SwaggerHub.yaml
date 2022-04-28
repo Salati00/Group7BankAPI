@@ -6,7 +6,7 @@ servers:
     url: https://virtserver.swaggerhub.com/Salati00/Bank-API/1.5
 info:
   description: This is a simple API
-  version: "1.5"
+  version: '2.1'
   title: Bank API
   contact:
     email: g.salati.0115@gmail.com
@@ -231,6 +231,8 @@ paths:
       description: This can only be done by the logged in user.
       operationId: createcurrentaccount
       responses:
+        '200':
+          description: OK
         '400':
           description: operation failed
         '404':
@@ -239,7 +241,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Account'
+              $ref: '#/components/schemas/User'
         description: Created account object
         required: true
     put:
@@ -248,6 +250,8 @@ paths:
       summary: Update an existing account
       operationId: updateAccount
       responses:
+        '200':
+          description: OK
         '404':
           description: Account not found
         '405':
@@ -310,6 +314,8 @@ paths:
           schema:
             type: string
       responses:
+        '200':
+          description: OK
         '400':
           description: Invalid ID supplied
         '404':
