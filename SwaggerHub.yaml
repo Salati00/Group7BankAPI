@@ -115,8 +115,6 @@ paths:
           description: Not found
         "500":
           description: Oops, something went wrong on the server.
-        '201':
-          description: Created
         '409':
           description: Conflict        
 
