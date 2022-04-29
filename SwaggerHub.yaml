@@ -480,11 +480,15 @@ components:
     Transaction:
       type: object
       required:
+      - id
       - Amount
       - To
       - From
       - UserPerformingID
       properties:
+        id: 
+          type: integer
+          example: 1234
         Date:
           type: string
           example: "01/01/2000"
