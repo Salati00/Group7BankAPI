@@ -255,13 +255,8 @@ paths:
         schema:
           type: integer
       - in: query
-        name: maximum
-        description: maximum value of transaction
-        schema:
-          type: number
-      - in: query
-        name: minimum
-        description: minimum value of transaction
+        name: value
+        description: value of transaction
         schema:
           type: number
       - in: query
