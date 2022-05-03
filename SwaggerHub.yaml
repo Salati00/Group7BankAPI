@@ -231,7 +231,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Transactions'
+                  $ref: '#/components/schemas/DTO_Transaction_Receive'
         '400':
           description: "Error in the transaction"
         '403':
@@ -240,7 +240,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Transaction"
+              $ref: "#/components/schemas/DTO_Transaction_Send"
         description: "Amount of money to deposit"
     get:
       tags:
@@ -282,7 +282,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Transactions'
+                  $ref: '#/components/schemas/DTO_Transaction_Receive'
         '400':
           description: "Error in the transaction"
         '403':
@@ -308,7 +308,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transactions'
+                $ref: '#/components/schemas/DTO_Transaction_Receive'
         '400':
           description: "Error in the transaction"
   /accounts:
@@ -472,7 +472,7 @@ components:
           example: 10000
         Role:
           $ref: '#/components/schemas/Role'
-    Transactions:
+    DTO_Transaction_Receive:
       type: object
       required:
       - id
@@ -500,7 +500,7 @@ components:
           type: integer
           example: 54398
     
-    Transaction:
+    DTO_Transaction_Send:
       type: object
       required:
       - from
