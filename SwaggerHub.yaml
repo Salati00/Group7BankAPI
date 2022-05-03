@@ -216,7 +216,7 @@ paths:
         '409':
           description: Conflict         
 
-  /Transactions:
+  /transactions:
     post:
       tags:
         - Transactions
@@ -293,7 +293,7 @@ paths:
         '403':
           description: "Error: Unauthorized"
 
-  /Transactions/{id}:
+  /transactions/{id}:
     get:
       tags:
         - Transactions
