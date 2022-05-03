@@ -231,7 +231,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Transaction'
+                  $ref: '#/components/schemas/Transactions'
         '400':
           description: "Error in the transaction"
         '403':
@@ -287,7 +287,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Transaction'
+                  $ref: '#/components/schemas/Transactions'
         '400':
           description: "Error in the transaction"
         '403':
@@ -313,7 +313,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transaction'
+                $ref: '#/components/schemas/Transactions'
         '400':
           description: "Error in the transaction"
   /Accounts:
@@ -477,7 +477,7 @@ components:
           example: 10000
         Role:
           $ref: '#/components/schemas/Role'
-    Transaction:
+    Transactions:
       type: object
       required:
       - id
@@ -504,6 +504,25 @@ components:
         UserPerformingID:
           type: integer
           example: 54398
+    
+    Transaction:
+      type: object
+      required:
+      - from
+      - to
+      - amount
+      properties:
+        from:
+          type: string
+          example: "NL91 ABNA 0417 1643 00"
+        to:
+          type: string
+          example: "NL91 ABNA 0417 1643 00"
+        amount:
+          type: number
+          example: 123.45
+    
+
     Account:
       type: object
       required:
