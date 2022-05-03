@@ -311,7 +311,7 @@ paths:
                 $ref: '#/components/schemas/Transactions'
         '400':
           description: "Error in the transaction"
-  /Accounts:
+  /accounts:
     post:
       tags:
         - Accounts
@@ -346,7 +346,7 @@ paths:
           description: Validation exception
       requestBody:
         $ref: '#/components/requestBodies/Account' 
-  /Accounts/Deposit:
+  /accounts/Deposit:
     post:
       tags:
         - Accounts
@@ -367,7 +367,7 @@ paths:
               example: { "Amount": "123.56" }
               type: number
         description: "Amount of money to deposit"
-  /Accounts/Witdraw:
+  /accounts/Witdraw:
     post:
       tags:
         - Accounts
@@ -388,11 +388,11 @@ paths:
               example: { "Amount": "123.56" }
               type: number
         description: "Amount of money to withdraw"
-  /Accounts/{Iban}:
+  /accounts/{Iban}:
     delete:
       tags:
         - Accounts
-      summary: Delete account
+      summary: Deactivates a user
       operationId: deleteaccount
       parameters:
         - name: Iban
