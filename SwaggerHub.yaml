@@ -319,34 +319,61 @@ paths:
       description: This can only be done by the logged in user.
       operationId: createcurrentaccount
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Account was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DTO_Account_Receive'
         '400':
-          description: operation failed
+          description: Wrong Parameters
         '404':
-          description: Account was not added   
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-        description: Created account object
-        required: true
+          description: Operation Falied
+      parameters:
+        - in: query
+          name: User ID
+          description: ID of the user for which to make an account
+          schema:
+            type: integer
+        - in: query
+          name: Absolute limit
+          description: Minimum Value that the account can hold
+          schema:
+            type: number
+            default: 0
+          required: true
     put:
       tags:
         - Accounts
       summary: Update an existing account
       operationId: updateAccount
       responses:
-        '200':
-          description: OK
+        '204':
+          description: Account was successfully edited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DTO_Account_Receive'
         '404':
           description: Account not found
         '405':
           description: Validation exception
-      requestBody:
-        $ref: '#/components/requestBodies/Account' 
-  /accounts/Deposit:
+      parameters:
+        - in: query
+          name: Absolute limit
+          description: Minimum Value that the account can hold
+          schema:
+            type: number
+            default: 0
+          required: true
+        - in: query
+          name: Disabled
+          description: Whether the account has been disabled for soft deletion
+          schema:
+            type: boolean
+            default: false
+          required: true
+  /accounts/deposit:
     post:
       tags:
         - Accounts
@@ -360,14 +387,14 @@ paths:
           description: "Error in the transaction"
         '403':
           description: "Error: unauthorized"
-      requestBody:
-        content:
-          application/json:
-             schema:
-              example: { "Amount": "123.56" }
-              type: number
-        description: "Amount of money to deposit"
-  /accounts/Witdraw:
+      parameters:
+        - in: query
+          name: Amount
+          description: Amount of money to deposit
+          schema:
+            type: number
+            example: "123.56"
+  /accounts/withdraw:
     post:
       tags:
         - Accounts
@@ -381,14 +408,14 @@ paths:
           description: "Error in the transaction"
         '403':
           description: "Error: unauthorized"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              example: { "Amount": "123.56" }
-              type: number
-        description: "Amount of money to withdraw"
-  /accounts/{Iban}:
+      parameters:
+        - in: query
+          name: Amount
+          description: Amount of money to withdraw
+          schema:
+            type: number
+            example: "123.56"
+  /accounts/{iban}:
     delete:
       tags:
         - Accounts
@@ -427,7 +454,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Account'
+                $ref: '#/components/schemas/DTO_Account_Receive'
         '400':
           description: Invalid Iban supplied
 components:
@@ -518,13 +545,14 @@ components:
           example: 123.45
     
 
-    Account:
+    DTO_Account_Receive:
       type: object
       required:
       - balance
       - dailylimit
       - AccountType
       - Absolutelimit
+      - Disabled
       properties:
         iban:
           type: string
@@ -540,6 +568,9 @@ components:
         UserId:
           type : integer
           example: 123
+        Disabled:
+          type: boolean
+          default: false
     AccountType:
           type: string
           enum:
@@ -571,10 +602,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Account'
+            $ref: '#/components/schemas/DTO_Account_Receive'
       description: Updating an existing account
       required: true
-# Parameters are for paginated enddpoint
+# Parameters are for paginated endpoints
   parameters:
     userIdParam:
       name: id
