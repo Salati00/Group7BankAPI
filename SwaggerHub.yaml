@@ -115,8 +115,23 @@ paths:
         "500":
           description: Oops, something went wrong on the server.
         '409':
-          description: Conflict        
+          description: Conflict
 
+  /Users/{id}/accounts:
+    get:
+      tags:
+        - Users
+      summary: receive user's account
+      description: returning a list of accounts
+      operationId: get all acounts from the user
+      responses:
+        "200":
+          description: Successful
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/DTO_Account_Receive'
+    
   /Users/{id}:
     get:
       tags:
@@ -133,7 +148,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-    
     put:
       tags:
         - Users
