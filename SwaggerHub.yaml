@@ -581,16 +581,47 @@ components:
           enum:
           - User
           - Employee
+    DTO_User_Send:
+        type: object
+        properties:
+          username:
+            type: string
+            example: login credentials
+          firstName:
+            type: string
+            example: Gigi
+          lastName:
+            type: string
+            example: D'alessio
+          email:
+            type: string
+            example: gigidalessio@gmail.it
+          phone:
+            type: number
+            example: 34595603123
+          transactionLimit:
+            type: number
+            example: 99999
+          dailylimit:
+            type: number
+            example: 9999
+          role:
+            type: array
+            example: user
+
+    #WIP:
+    DTO_User_Receive:
+        type: object
     LoginDto:
       type: object
       additionalProperties: false
       properties:
         email:
           type: string
-          example: rbanks@gmail.com
+          example: ing@gmail.com
         password:
           type: string
-          example: veryCoolPassword2
+          example: passwordExample111
     BearerTokenDto:
       type: object
       properties:
