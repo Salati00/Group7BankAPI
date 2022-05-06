@@ -250,12 +250,14 @@ paths:
           description: "Error in the transaction"
         '403':
           description: "Error: unauthorized"
+        '404':
+          description: "Eroor: Not found"
       requestBody:
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/DTO_Transaction_Send"
-        description: "Amount of money to deposit"
+
     get:
       tags:
         - Transactions
@@ -266,6 +268,11 @@ paths:
       - in: query
         name: count
         description: amount of transactions to return
+        schema:
+          type: integer
+      - in: query
+        name: skip
+        description: amount of transactions to skip
         schema:
           type: integer
       - in: query
@@ -280,7 +287,7 @@ paths:
           type: string
       - in: query
         name: startDate
-        description: date of transaction to return from which to start
+        description: start date of transactions to return
         schema:
           type: string
       - in: query
