@@ -250,6 +250,8 @@ paths:
           description: "Error in the transaction"
         '403':
           description: "Error: unauthorized"
+        '404':
+          description: "Eroor: Not found"
       requestBody:
         content:
           application/json:
