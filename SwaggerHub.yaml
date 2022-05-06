@@ -2,10 +2,10 @@ openapi: 3.0.0
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/Salati00/Bank-API/1.5
+    url: https://virtserver.swaggerhub.com/Salati00/Bank-API-Final/3.0
 info:
   description: This is a simple API
-  version: '2.1'
+  version: '3.0'
   title: Bank API
   contact:
     email: g.salati.0115@gmail.com
@@ -52,7 +52,6 @@ paths:
             minimum: 20
             maximum: 50
           description: the limit to get number of users
-          
         - in: query
           name: offset
           schema:
@@ -60,7 +59,6 @@ paths:
             format: int64
             minimum: 0
           description: the offset to start getting users
-          
         - $ref: "#/components/parameters/offsetParam"
         - $ref: "#/components/parameters/limitParam"
         - $ref: "#/components/parameters/emailParam"
@@ -73,7 +71,7 @@ paths:
                 maxItems: 50
                 type: array
                 items:
-                  $ref: "#/components/schemas/User"
+                  $ref: "#/components/schemas/DTO_User_Receive"
         "400":
           description: Invalid input
         "403":
@@ -85,8 +83,7 @@ paths:
         '201':
           description: Created
         '409':
-          description: Conflict          
-
+          description: Conflict
     post:
       tags:
         - Users
@@ -98,14 +95,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/DTO_User_Send"
       responses:
         "201":
           description: The user has been created.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: "#/components/schemas/DTO_User_Receive"
         "400":
           description: Invalid input
         "403":
@@ -116,11 +113,12 @@ paths:
           description: Oops, something went wrong on the server.
         '409':
           description: Conflict
-
   /Users/{id}/accounts:
     get:
       tags:
         - Users
+      parameters:
+        - $ref: "#/components/parameters/userIdParam"
       summary: receive user's account
       description: returning a list of accounts
       operationId: get all acounts from the user
@@ -459,13 +457,19 @@ paths:
             type: boolean
             default: false
           required: true
+        - name: iban
+          in: path
+          description: The ID of the account that needs to be deleted
+          required: true
+          schema:
+            type: string
     delete:
       tags:
         - Accounts
       summary: Deactivates a user
       operationId: deleteaccount
       parameters:
-        - name: Iban
+        - name: iban
           in: path
           description: The ID of the account that needs to be deleted
           required: true
@@ -487,7 +491,7 @@ paths:
       description: Returns a single Account
       operationId: getAccountByIban
       parameters:
-        - name: Iban
+        - name: iban
           in: path
           description: Iban of account to return
           required: true
@@ -664,8 +668,7 @@ components:
             type: number
             example: 9999
           role:
-            type: array
-            example: user
+            $ref: '#/components/schemas/Role'
     DTO_User_Receive:
         type: object
         required:
@@ -704,8 +707,7 @@ components:
             type: number
             example: 9999
           role:
-            type: array
-            example: user
+            $ref: '#/components/schemas/Role'
 
     LoginDto:
       type: object
