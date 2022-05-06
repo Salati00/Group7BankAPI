@@ -349,7 +349,9 @@ paths:
         '400':
           description: Wrong Parameters
         '404':
-          description: Operation Falied
+          description: "Resource not found"
+        '500':
+          description: "Internal Server Error"
       parameters:
         - in: query
           name: User ID
@@ -362,37 +364,6 @@ paths:
           schema:
             type: number
             default: 0
-          required: true
-    put:
-      tags:
-        - Accounts
-      summary: Update an existing account
-      operationId: updateAccount
-      responses:
-        '204':
-          description: Account was successfully edited
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DTO_Account_Receive'
-        '404':
-          description: Account not found
-        '405':
-          description: Validation exception
-      parameters:
-        - in: query
-          name: Absolute limit
-          description: Minimum Value that the account can hold
-          schema:
-            type: number
-            default: 0
-          required: true
-        - in: query
-          name: Disabled
-          description: Whether the account has been disabled for soft deletion
-          schema:
-            type: boolean
-            default: false
           required: true
   /accounts/deposit:
     post:
@@ -408,6 +379,10 @@ paths:
           description: "Error in the transaction"
         '403':
           description: "Error: unauthorized"
+        '404':
+          description: "Resource not found"
+        '500':
+          description: "Internal Server Error"
       parameters:
         - in: query
           name: Amount
@@ -429,6 +404,10 @@ paths:
           description: "Error in the transaction"
         '403':
           description: "Error: unauthorized"
+        '404':
+          description: "Resource Not found"
+        '500':
+          description: "Internal Server Error"
       parameters:
         - in: query
           name: Amount
@@ -437,6 +416,39 @@ paths:
             type: number
             example: "123.56"
   /accounts/{iban}:
+    put:
+      tags:
+        - Accounts
+      summary: Update an existing account
+      operationId: updateAccount
+      responses:
+        '204':
+          description: Account was successfully edited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DTO_Account_Receive'
+        '404':
+          description: Account not found
+        '405':
+          description: Validation exception
+        '500':
+          description: Internal Server Error
+      parameters:
+        - in: query
+          name: Absolute limit
+          description: Minimum Value that the account can hold
+          schema:
+            type: number
+            default: 0
+          required: true
+        - in: query
+          name: Disabled
+          description: Whether the account has been disabled for soft deletion
+          schema:
+            type: boolean
+            default: false
+          required: true
     delete:
       tags:
         - Accounts
@@ -455,7 +467,9 @@ paths:
         '400':
           description: Invalid ID supplied
         '404':
-          description: ID not found
+          description: Account not found
+        '500':
+          description: Internal Server Error
     get:
       tags:
       - Accounts
@@ -478,6 +492,10 @@ paths:
                 $ref: '#/components/schemas/DTO_Account_Receive'
         '400':
           description: Invalid Iban supplied
+        '404':
+          description: Account Not found
+        '500':
+          description: Internal Server Error
 components:
   responses:
     UnauthorizedError:
@@ -720,7 +738,7 @@ components:
       required: true
       schema:
         type: string
-        example: "robbanks@gmail.com"
+        example: "robertbanks@gmail.com"
 
     limitParam:
       name: max
