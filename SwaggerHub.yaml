@@ -597,6 +597,15 @@ components:
           - Employee
     DTO_User_Send:
         type: object
+        required:
+          - username
+          - firstname
+          - lastname
+          - email
+          - phone
+          - transactionLimit
+          - dailylimit
+          - role
         properties:
           username:
             type: string
@@ -622,10 +631,47 @@ components:
           role:
             type: array
             example: user
-
-    #WIP:
     DTO_User_Receive:
         type: object
+        required:
+          - id
+          - username
+          - firstname
+          - lastname
+          - email
+          - phone
+          - transactionLimit
+          - dailylimit
+          - role
+        properties:
+          id:
+            type: integer
+            example: 1
+          username:
+            type: string
+            example: login credentials
+          firstName:
+            type: string
+            example: Gigi
+          lastName:
+            type: string
+            example: D'alessio
+          email:
+            type: string
+            example: gigidalessio@gmail.it
+          phone:
+            type: number
+            example: 34595603123
+          transactionLimit:
+            type: number
+            example: 99999
+          dailylimit:
+            type: number
+            example: 9999
+          role:
+            type: array
+            example: user
+
     LoginDto:
       type: object
       additionalProperties: false
