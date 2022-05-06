@@ -667,8 +667,10 @@ components:
           dailylimit:
             type: number
             example: 9999
-          role:
-            $ref: '#/components/schemas/Role'
+          roles:
+            type: array
+            items:
+              $ref: '#/components/schemas/Role'
     DTO_User_Receive:
         type: object
         required:
@@ -706,8 +708,10 @@ components:
           dailylimit:
             type: number
             example: 9999
-          role:
-            $ref: '#/components/schemas/Role'
+          roles:
+            type: array
+            items:
+              $ref: '#/components/schemas/Role'
 
     LoginDto:
       type: object
