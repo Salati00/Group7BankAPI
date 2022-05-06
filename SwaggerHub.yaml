@@ -251,7 +251,9 @@ paths:
         '403':
           description: "Error: unauthorized"
         '404':
-          description: "Eroor: Not found"
+          description: "Error: not found"
+        '500':
+          description: "Internal Server Error"
       requestBody:
         content:
           application/json:
@@ -308,6 +310,10 @@ paths:
           description: "Error in the transaction"
         '403':
           description: "Error: Unauthorized"
+        '404':
+          description: "Resource not found"
+        '500':
+          description: "Internal Server Error"
 
   /transactions/{id}:
     get:
@@ -332,6 +338,10 @@ paths:
                 $ref: '#/components/schemas/DTO_Transaction_Receive'
         '400':
           description: "Error in the transaction"
+        '404':
+          description: "Resource not found"
+        '500':
+          description: "Internal Server Error"
   /accounts:
     post:
       tags:
