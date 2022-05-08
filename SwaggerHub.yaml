@@ -145,7 +145,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/DTO_User_Receive'
     put:
       tags:
         - Users
@@ -156,7 +156,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/DTO_User_Receive'
       parameters:
         - $ref: "#/components/parameters/userIdParam"
       responses:
