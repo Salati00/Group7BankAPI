@@ -165,7 +165,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/DTO_User_Receive'
         "400":
           description: Invalid input
         "403":
